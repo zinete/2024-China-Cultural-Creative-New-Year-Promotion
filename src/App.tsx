@@ -46,9 +46,9 @@ export default function App() {
             />
           </div>
         </SwiperSlide>
-        {[1, 2, 3, 4, 5].map((items, index) => (
+        {[1, 2, 3, 4, 5].map((items) => (
           <SwiperSlide
-            key={index}
+            key={items}
             className="bg-[rgba(195,16,25,1.00)] relative"
           >
             <SlideWiget videoRef={videoRef} activeIndex={activeIndex} />
