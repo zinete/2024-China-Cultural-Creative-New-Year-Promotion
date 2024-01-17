@@ -12,6 +12,5 @@
 }
 
 body {
-  height: 100vh;
-  background-color: #fff;
+  @apply bg-[rgba(195,16,25,1.00)] mx-auto;
 }
