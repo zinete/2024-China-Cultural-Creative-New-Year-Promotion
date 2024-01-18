@@ -1,27 +1,71 @@
-import { animated, useInView } from "@react-spring/web";
+import { animated, useInView, config } from "@react-spring/web";
 
-import * as React from "react";
+import React, { useEffect, useRef } from "react";
+
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
+
+import "./index.css";
 
 interface ISwiperSlideWigetProps {
-  videoRef: React.RefObject<HTMLVideoElement>;
   activeIndex: number;
+  sources?: { src: string; type: string }[];
 }
-const SlideWiget = ({ videoRef, activeIndex }: ISwiperSlideWigetProps) => {
+const SlideWiget = ({ activeIndex }: ISwiperSlideWigetProps) => {
   const [ref, springs] = useInView(
     () => ({
       from: {
         opacity: 0,
-        y: 100,
+        y: -100,
+        scale: 0,
       },
       to: {
         opacity: 1,
         y: 0,
+        scale: 1,
       },
+      configs: {
+        easing: config.molasses,
+      },
+      reset: true,
     }),
     {
       rootMargin: "-40% 0%",
     }
   );
+
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videojs(videoRef.current, {
+        playbackRates: [1.0, 2.0, 3.0], //播放速度
+        autoplay: false, //如果true,浏览器准备好时开始回放。
+        muted: false, // 默认情况下将会消除任何音频。
+        loop: false, // 导致视频一结束就重新开始。
+        preload: "none", // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        language: "zh-CN",
+        controls: true,
+        fluid: true,
+        aspectRatio: "16:9",
+        notSupportedMessage: "此视频暂无法播放，请稍后再试", //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+        controlBar: {
+          timeDivider: true,
+          durationDisplay: true,
+          remainingTimeDisplay: false,
+          fullscreenToggle: true, //全屏按钮
+        },
+        poster: "https://taiji.vercel.app/cn/cn04.png",
+        sources: [
+          {
+            src: "https://721b395a.static-6ul.pages.dev/videoTest/splitvideo/playlist.m3u8",
+            type: "application/x-mpegURL",
+          },
+        ],
+      });
+    }
+  }, [videoRef]);
+
   return (
     <>
       <animated.div className="h-full w-full" ref={ref}>
@@ -53,14 +97,14 @@ const SlideWiget = ({ videoRef, activeIndex }: ISwiperSlideWigetProps) => {
           className="w-[100px] absolute top-[120px] left-[20px]"
         />
         {/* video */}
-        <div className="">
+        <div className="absolute top-[50%] left-1/2 ml-[-34%] w-[70%] h-[300px]">
           <video
-            ref={() => videoRef.current}
+            ref={videoRef}
             controls
             preload="auto"
             autoPlay
-            src="http://demo-videos.qnsdk.com/only-video-1080p-60fps.m4s"
-            className="absolute top-[50%] left-1/2 ml-[-34%] w-[70%]"
+            playsInline
+            className="w-full h-full  video-js"
           ></video>
         </div>
         {/* footer logo */}

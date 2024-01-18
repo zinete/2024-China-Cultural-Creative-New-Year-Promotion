@@ -1,8 +1,10 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Mousewheel, Pagination } from "swiper/modules";
+import { Mousewheel, Pagination, Zoom } from "swiper/modules";
 import { useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
+
+import "./index.css";
 
 import SlideWiget from "./components/SlideWiget";
 export default function App() {
@@ -20,13 +22,13 @@ export default function App() {
   return (
     <div className="mx-auto">
       <Swiper
-        zoom={true}
+        // zoom={true}
         direction={"vertical"}
-        slidesPerView={1}
-        spaceBetween={0}
-        mousewheel={true}
+        // slidesPerView={1}
+        // spaceBetween={0}
+        // mousewheel={true}
         pagination={false}
-        modules={[Mousewheel, Pagination]}
+        modules={[Mousewheel, Pagination, Zoom]}
         onSlideChange={(e) => {
           setActiveIndex(e.activeIndex);
         }}
@@ -34,8 +36,6 @@ export default function App() {
           console.log(e.activeIndex);
           stopVideo();
         }}
-        width={document.body.clientWidth}
-        height={document.body.clientHeight}
         className="h-screen"
       >
         <SwiperSlide>
@@ -51,7 +51,7 @@ export default function App() {
             key={items}
             className="bg-[rgba(195,16,25,1.00)] relative"
           >
-            <SlideWiget videoRef={videoRef} activeIndex={activeIndex} />
+            <SlideWiget activeIndex={activeIndex} />
           </SwiperSlide>
         ))}
       </Swiper>
