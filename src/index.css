@@ -12,5 +12,8 @@
 }
 
 body {
-  @apply bg-[rgba(195,16,25,1.00)] mx-auto;
+  @apply bg-[rgba(195,16,25,1.00)];
+}
+#root {
+  @apply bg-[#fff];
 }

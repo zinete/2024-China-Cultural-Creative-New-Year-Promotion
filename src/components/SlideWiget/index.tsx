@@ -1,6 +1,6 @@
 import { animated, useInView, config } from "@react-spring/web";
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
@@ -12,6 +12,7 @@ interface ISwiperSlideWigetProps {
   sources?: { src: string; type: string }[];
 }
 const SlideWiget = ({ activeIndex }: ISwiperSlideWigetProps) => {
+  const videoRef = useRef(null);
   const [ref, springs] = useInView(
     () => ({
       from: {
@@ -34,8 +35,6 @@ const SlideWiget = ({ activeIndex }: ISwiperSlideWigetProps) => {
     }
   );
 
-  const videoRef = useRef(null);
-
   useEffect(() => {
     if (videoRef.current) {
       videojs(videoRef.current, {
@@ -43,7 +42,7 @@ const SlideWiget = ({ activeIndex }: ISwiperSlideWigetProps) => {
         autoplay: false, //如果true,浏览器准备好时开始回放。
         muted: false, // 默认情况下将会消除任何音频。
         loop: false, // 导致视频一结束就重新开始。
-        preload: "none", // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        preload: "auto", // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
         language: "zh-CN",
         controls: true,
         fluid: true,
@@ -52,24 +51,24 @@ const SlideWiget = ({ activeIndex }: ISwiperSlideWigetProps) => {
         controlBar: {
           timeDivider: true,
           durationDisplay: true,
-          remainingTimeDisplay: false,
+          remainingTimeDisplay: true,
           fullscreenToggle: true, //全屏按钮
         },
-        poster: "https://taiji.vercel.app/cn/cn04.png",
+        poster: "",
         sources: [
           {
-            src: "https://721b395a.static-6ul.pages.dev/videoTest/splitvideo/playlist.m3u8",
+            src: "/video/huluwa/playlist.m3u8",
             type: "application/x-mpegURL",
           },
         ],
       });
     }
-  }, [videoRef]);
+    console.log(activeIndex, "activeIndex");
+  }, [videoRef, activeIndex]);
 
   return (
     <>
       <animated.div className="h-full w-full" ref={ref}>
-        <span>{activeIndex}</span>
         <div className="flex items-center h-full absolute inset-0">
           <div className="w-full relative">
             <img
@@ -78,12 +77,12 @@ const SlideWiget = ({ activeIndex }: ISwiperSlideWigetProps) => {
             />
             {/* title */}
             <div className="z-1 absolute inset-0">
-              <div className="flex justify-center mt-[250px]">
+              <div className="flex justify-center mt-[40%]">
                 <animated.img
                   style={springs}
                   src="//14329833.s50i.faiusr.com/4/104/ADIIABAEGAAgoL_0jwYo8ubbuQMwzAM43gE.png.webp"
                   alt=""
-                  className="w-[450px]"
+                  className="w-[50%]"
                 />
               </div>
             </div>
@@ -94,18 +93,11 @@ const SlideWiget = ({ activeIndex }: ISwiperSlideWigetProps) => {
         <img
           src="https://14329833.s50i.faiusr.com/4/104/ADIIABAEGAAgjKq4jwYojMfU7AEwigE45QE!200x200.png.webp"
           alt="logo"
-          className="w-[100px] absolute top-[120px] left-[20px]"
+          className="w-[10%] absolute top-[10%] left-[5%]"
         />
         {/* video */}
         <div className="absolute top-[50%] left-1/2 ml-[-34%] w-[70%] h-[300px]">
-          <video
-            ref={videoRef}
-            controls
-            preload="auto"
-            autoPlay
-            playsInline
-            className="w-full h-full  video-js"
-          ></video>
+          <video ref={videoRef} className="w-full h-full video-js"></video>
         </div>
         {/* footer logo */}
         <div className="absolute bottom-0 left-0 right-0">

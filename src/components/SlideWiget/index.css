@@ -58,5 +58,5 @@
 }
 video {
   width: 100% !important;
-  object-fit: fill;
+  object-fit: fill !important;
 }

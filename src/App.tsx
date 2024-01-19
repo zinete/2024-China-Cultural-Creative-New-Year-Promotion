@@ -1,12 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Mousewheel, Pagination, Zoom } from "swiper/modules";
+import { Mousewheel } from "swiper/modules";
 import { useRef, useState } from "react";
 import "swiper/css";
-import "swiper/css/pagination";
-
+import "swiper/css/effect-fade";
 import "./index.css";
-
+import { useTrail, animated } from "@react-spring/web";
 import SlideWiget from "./components/SlideWiget";
+
 export default function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -19,34 +19,72 @@ export default function App() {
     });
   };
 
+  const [springs, api] = useTrail(
+    6,
+    {
+      from: {
+        opacity: 0,
+        y: -100,
+        scale: 0,
+      },
+      to: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+      },
+      config: {
+        mass: 1,
+        tension: 120,
+        friction: 14,
+      },
+    },
+    []
+  );
+
   return (
-    <div className="mx-auto">
+    <div>
       <Swiper
-        // zoom={true}
+        lazyPreloadPrevNext={1}
+        wrapperClass="h-screen"
         direction={"vertical"}
-        // slidesPerView={1}
-        // spaceBetween={0}
-        // mousewheel={true}
+        mousewheel={true}
         pagination={false}
-        modules={[Mousewheel, Pagination, Zoom]}
+        autoHeight
+        modules={[Mousewheel]}
         onSlideChange={(e) => {
           setActiveIndex(e.activeIndex);
         }}
         onActiveIndexChange={(e) => {
           console.log(e.activeIndex);
           stopVideo();
+          api.start({
+            from: {
+              opacity: 0,
+              y: -100,
+              scale: 0,
+            },
+            to: {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+            },
+          });
         }}
-        className="h-screen"
       >
         <SwiperSlide>
-          <div className="bg-[rgba(195,16,25,1.00)] relative">
-            <img
-              src="https://14329833.s50i.faiusr.com/4/104/ADIIABAEGAAgrYm0jwYohte5NzDuBTi2CQ.png.webp"
-              alt=""
-            />
+          <div className="grid grid-cols-2 gap-[20px]">
+            {springs.map((v, i) => {
+              return (
+                <animated.div
+                  key={i}
+                  style={v}
+                  className="h-[160px] bg-slate-600"
+                ></animated.div>
+              );
+            })}
           </div>
         </SwiperSlide>
-        {[1, 2, 3, 4, 5].map((items) => (
+        {[1, 2, 0].map((items) => (
           <SwiperSlide
             key={items}
             className="bg-[rgba(195,16,25,1.00)] relative"
