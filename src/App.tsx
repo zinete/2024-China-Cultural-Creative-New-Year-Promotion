@@ -32,11 +32,6 @@ export default function App() {
         y: 0,
         scale: 1,
       },
-      config: {
-        mass: 1,
-        tension: 120,
-        friction: 14,
-      },
     },
     []
   );

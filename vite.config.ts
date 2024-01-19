@@ -16,9 +16,9 @@ export default defineConfig({
         postcsstoviewport({
           appSelector: "#root",
           viewportWidth: 750,
-          maxDisplayWidth: 425,
+          maxDisplayWidth: 392,
           unitPrecision: 2,
-          desktopWidth: 425,
+          desktopWidth: 392,
         }),
       ],
     },
