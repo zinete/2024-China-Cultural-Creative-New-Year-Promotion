@@ -4,12 +4,66 @@ import { useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "./index.css";
-import { useTrail, animated } from "@react-spring/web";
+import PageOne from "./page/page1";
+import PageTwo from "./page/page2";
+import PageThree from "./page/page3";
+import PageFour from "./page/page4";
+import PageFive from "./page/page5";
+
+import PageSix from "./page/page6";
+
+import PageSeven from "./page/page7";
+
+import PageEight from "./page/page8";
+
 import SlideWiget from "./components/SlideWiget";
+import AudioPlayer from "./components/AudioPlayer";
+
+interface IPage {
+  childern: JSX.Element;
+  title?: JSX.Element;
+  key: number;
+}
+
+const pageInfo: IPage[] = [
+  {
+    key: 0,
+    childern: <PageOne />,
+  },
+  {
+    key: 1,
+    childern: <PageTwo />,
+  },
+  {
+    key: 2,
+    childern: <PageThree />,
+  },
+  {
+    key: 3,
+    childern: <PageFour />,
+  },
+  {
+    key: 4,
+    childern: <PageFive />,
+  },
+  {
+    key: 5,
+    childern: <PageSix />,
+  },
+  {
+    key: 6,
+    childern: <PageSeven />,
+  },
+  {
+    key: 7,
+    childern: <PageEight />,
+  },
+];
 
 export default function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
   const stopVideo = () => {
     // 每次只允许播放一个
     document.querySelectorAll("video").forEach((video) => {
@@ -19,25 +73,8 @@ export default function App() {
     });
   };
 
-  const [springs, api] = useTrail(
-    6,
-    {
-      from: {
-        opacity: 0,
-        y: -100,
-        scale: 0,
-      },
-      to: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-      },
-    },
-    []
-  );
-
   return (
-    <div>
+    <div className="h-screen relative">
       <Swiper
         lazyPreloadPrevNext={1}
         wrapperClass="h-screen"
@@ -52,42 +89,18 @@ export default function App() {
         onActiveIndexChange={(e) => {
           console.log(e.activeIndex);
           stopVideo();
-          api.start({
-            from: {
-              opacity: 0,
-              y: -100,
-              scale: 0,
-            },
-            to: {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            },
-          });
         }}
       >
-        <SwiperSlide>
-          <div className="grid grid-cols-2 gap-[20px]">
-            {springs.map((v, i) => {
-              return (
-                <animated.div
-                  key={i}
-                  style={v}
-                  className="h-[160px] bg-slate-600"
-                ></animated.div>
-              );
-            })}
-          </div>
-        </SwiperSlide>
-        {[1, 2, 0].map((items) => (
-          <SwiperSlide
-            key={items}
-            className="bg-[rgba(195,16,25,1.00)] relative"
-          >
-            <SlideWiget activeIndex={activeIndex} />
+        {pageInfo.map((items) => (
+          <SwiperSlide key={items.key}>
+            <SlideWiget activeIndex={activeIndex} children={items.childern} />
           </SwiperSlide>
         ))}
       </Swiper>
+      <AudioPlayer />
+      <div className="absolute left-0 right-0 bottom-[100px] animate-bounce flex flex-row justify-center z-50">
+        <img src="./more.svg" alt="" className="w-[80px]" />
+      </div>
     </div>
   );
 }
