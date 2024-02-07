@@ -86,8 +86,7 @@ export default function App() {
         onSlideChange={(e) => {
           setActiveIndex(e.activeIndex);
         }}
-        onActiveIndexChange={(e) => {
-          console.log(e.activeIndex);
+        onActiveIndexChange={() => {
           stopVideo();
         }}
       >
@@ -98,9 +97,11 @@ export default function App() {
         ))}
       </Swiper>
       <AudioPlayer />
-      <div className="absolute left-0 right-0 bottom-[100px] animate-bounce flex flex-row justify-center z-50">
-        <img src="./more.svg" alt="" className="w-[80px]" />
-      </div>
+      {activeIndex >= pageInfo?.length - 1 ? null : (
+        <div className="absolute left-0 right-0 bottom-[100px] animate-bounce flex flex-row justify-center z-50">
+          <img src="./more.svg" alt="" className="w-[80px]" />
+        </div>
+      )}
     </div>
   );
 }
