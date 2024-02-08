@@ -2,7 +2,7 @@
  * @ Author: ZhengHui
  * @ Create Time: 2024-01-30 20:08:22
  * @ Modified by: ZhengHui
- * @ Modified time: 2024-02-01 20:50:40
+ * @ Modified time: 2024-02-08 17:09:13
  * @ Description:
  */
 
@@ -21,7 +21,9 @@ const Page8 = () => {
       scale: 1,
     },
     configs: {
-      easing: config.wobbly,
+      easing: config.molasses,
+
+      duration: 2000,
     },
   }));
   return (

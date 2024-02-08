@@ -2,7 +2,7 @@
  * @ Author: ZhengHui
  * @ Create Time: 2024-01-30 20:08:22
  * @ Modified by: ZhengHui
- * @ Modified time: 2024-02-06 16:10:43
+ * @ Modified time: 2024-02-08 17:08:15
  * @ Description:
  */
 
@@ -20,6 +20,7 @@ const Page1 = () => {
     },
     configs: {
       easing: config.wobbly,
+      duration: 3000,
     },
   }));
   const [ref2, springs2] = useInView(() => ({
@@ -35,6 +36,7 @@ const Page1 = () => {
     },
     configs: {
       easing: config.wobbly,
+      duration: 3000,
     },
   }));
   return (
@@ -43,7 +45,7 @@ const Page1 = () => {
         style={{
           backgroundImage: "url('./img/bg_page1.png')",
         }}
-        className="w-full bg-cover h-full "
+        className="w-full bg-cover h-[calc(100vh-220px)] "
       >
         <animated.div
           ref={ref2}
@@ -59,6 +61,9 @@ const Page1 = () => {
           alt=""
           className="w-[888px] absolute right-0 mt-[30px]"
         />
+      </div>
+      <div className="h-[220px] bg-white absolute bottom-0 left-0 right-0 ">
+        <img src="./img/page1_header.png" alt="" className="w-full" />
       </div>
     </div>
   );
